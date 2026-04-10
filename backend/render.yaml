@@ -4,3 +4,6 @@ services:
     env: python
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn app:app
+    envVars:
+      - key: AWS_DEFAULT_REGION
+        value: us-east-1
