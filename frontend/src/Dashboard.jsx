@@ -54,8 +54,8 @@ export default function Dashboard() {
       <div className="dashboard__header">
         <div>
           <h1 className="dashboard__title flex-container">
-            <h1 className="dashboard__title icon">⚡</h1>
-            <h1 className='dashboard__title animated1'>AWS Security Monitor</h1>
+            <p className="dashboard__title icon">⚡</p>
+            <p className='dashboard__title animated1'>AWS Security Monitor</p>
           </h1>
           <p className="dashboard__subtitle">Last updated: {lastUpdated || '—'}</p>
         </div>
