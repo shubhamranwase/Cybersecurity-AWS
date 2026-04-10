@@ -4,7 +4,7 @@ import AlertCard from './Components/AlertCard';
 import LogTable from './Components/LogTable';
 import ThreatChart from './Components/ThreatChart';
 
-const API = '/api';
+const API = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
 
 function StatBox({ label, value, color }) {
   return (
