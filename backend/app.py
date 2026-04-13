@@ -1,6 +1,9 @@
+import os
+
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-USE_REAL_AWS = False
+
+USE_REAL_AWS = os.getenv("USE_REAL_AWS", "false").lower() == "true"
 
 if USE_REAL_AWS:
     from aws_services import (
@@ -8,32 +11,36 @@ if USE_REAL_AWS:
         get_cloudwatch_logs,
         get_cloudtrail_events,
         send_sns_alert,
-        get_security_hub_findings
+        get_security_hub_findings,
+        get_cloudwatch_metrics,
+        get_cloudwatch_alarms,
+        get_threat_history,
+        save_threat_to_dynamodb,
     )
 else:
-    from dummy_aws_services import (  
+    from dummy_aws_services import (
         get_guardduty_findings,
         get_cloudwatch_logs,
         get_cloudtrail_events,
         send_sns_alert,
-        get_security_hub_findings
+        get_security_hub_findings,
+        get_cloudwatch_metrics,
+        get_cloudwatch_alarms,
+        get_threat_history,
     )
 
 app = Flask(__name__)
-CORS(app, origins=[
-    "http://localhost:5173",
-    "https://cybersecurity-aws.vercel.app"
-])
+CORS(app)
 
 SNS_TOPIC_ARN = "arn:aws:sns:us-east-1:YOUR_ACCOUNT_ID:security-alerts"
 
 
-@app.route('/api/health', methods=['GET'])
+@app.route('/api/health',       methods=['GET'])
 def health():
     return jsonify({'status': 'ok'})
 
 
-@app.route('/api/guardduty', methods=['GET'])
+@app.route('/api/guardduty',    methods=['GET'])
 def guardduty():
     try:
         findings = get_guardduty_findings()
@@ -42,7 +49,7 @@ def guardduty():
         return jsonify({'error': str(e)}), 500
 
 
-@app.route('/api/cloudtrail', methods=['GET'])
+@app.route('/api/cloudtrail',   methods=['GET'])
 def cloudtrail():
     try:
         events = get_cloudtrail_events()
@@ -51,7 +58,43 @@ def cloudtrail():
         return jsonify({'error': str(e)}), 500
 
 
-@app.route('/api/logs', methods=['GET'])
+@app.route('/api/securityhub',  methods=['GET'])
+def security_hub():
+    try:
+        findings = get_security_hub_findings()
+        return jsonify({'findings': findings})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/metrics',      methods=['GET'])
+def metrics():
+    try:
+        data = get_cloudwatch_metrics()
+        return jsonify(data)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/alarms',       methods=['GET'])
+def alarms():
+    try:
+        data = get_cloudwatch_alarms()
+        return jsonify({'alarms': data})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/history',      methods=['GET'])
+def history():
+    try:
+        data = get_threat_history()
+        return jsonify({'history': data})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/logs',         methods=['GET'])
 def logs():
     log_group = request.args.get('group', '/aws/cloudtrail')
     minutes   = int(request.args.get('minutes', 30))
@@ -62,16 +105,7 @@ def logs():
         return jsonify({'error': str(e)}), 500
 
 
-@app.route('/api/securityhub', methods=['GET'])
-def security_hub():
-    try:
-        findings = get_security_hub_findings()
-        return jsonify({'findings': findings})
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
-
-@app.route('/api/alert', methods=['POST'])
+@app.route('/api/alert',        methods=['POST'])
 def alert():
     data = request.json
     try:

@@ -85,6 +85,92 @@ def get_cloudwatch_logs(log_group_name, minutes=30):
         },
     ]
 
+def get_cloudwatch_metrics():
+    return {
+        'api_calls': [
+            {'time': '08:00', 'value': 45},
+            {'time': '09:00', 'value': 82},
+            {'time': '10:00', 'value': 120},
+            {'time': '11:00', 'value': 95},
+            {'time': '12:00', 'value': 60},
+            {'time': '13:00', 'value': 140},
+            {'time': '14:00', 'value': 200},
+        ],
+        'error_rate': [
+            {'time': '08:00', 'value': 2},
+            {'time': '09:00', 'value': 5},
+            {'time': '10:00', 'value': 1},
+            {'time': '11:00', 'value': 8},
+            {'time': '12:00', 'value': 3},
+            {'time': '13:00', 'value': 12},
+            {'time': '14:00', 'value': 4},
+        ],
+        'login_attempts': [
+            {'time': '08:00', 'value': 3},
+            {'time': '09:00', 'value': 7},
+            {'time': '10:00', 'value': 2},
+            {'time': '11:00', 'value': 15},
+            {'time': '12:00', 'value': 4},
+            {'time': '13:00', 'value': 9},
+            {'time': '14:00', 'value': 6},
+        ],
+    }
+
+
+def get_cloudwatch_alarms():
+    return [
+        {
+            'name':        'HighAPICallRate',
+            'state':       'ALARM',
+            'description': 'API calls exceeded threshold',
+            'metric':      'EventCount',
+            'updated_at':  '2026-03-18T10:00:00'
+        },
+        {
+            'name':        'FailedLoginAttempts',
+            'state':       'ALARM',
+            'description': 'Multiple failed logins detected',
+            'metric':      'FailedLogins',
+            'updated_at':  '2026-03-18T09:30:00'
+        },
+        {
+            'name':        'RootAccountLogin',
+            'state':       'OK',
+            'description': 'Root account login monitor',
+            'metric':      'RootLogin',
+            'updated_at':  '2026-03-18T08:00:00'
+        },
+    ]
+
+
+def get_threat_history():
+    return [
+        {
+            'threat_id': 'hist-001',
+            'title':     'Brute force attack blocked',
+            'severity':  '8.5',
+            'type':      'CloudTrail/FailedLogin',
+            'status':    'RESOLVED',
+            'timestamp': '2026-03-17T14:30:00'
+        },
+        {
+            'threat_id': 'hist-002',
+            'title':     'Exposed S3 bucket patched',
+            'severity':  '7.0',
+            'type':      'IAM/ExposedResource',
+            'status':    'RESOLVED',
+            'timestamp': '2026-03-16T09:15:00'
+        },
+        {
+            'threat_id': 'hist-003',
+            'title':     'Unauthorized API call detected',
+            'severity':  '6.5',
+            'type':      'CloudTrail/SuspiciousEvent',
+            'status':    'RESOLVED',
+            'timestamp': '2026-03-15T16:45:00'
+        },
+    ]
+
 
 def get_security_hub_findings():
     return [

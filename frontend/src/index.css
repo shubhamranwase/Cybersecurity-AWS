@@ -705,3 +705,96 @@ h2.card__title {
     font-size: 18px;
   }
 }
+
+/* ── Activity Feed ───────────────────────────────────────── */
+.activity-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.activity-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  transition: var(--transition);
+}
+
+.activity-item:hover {
+  border-color: var(--border-bright);
+}
+
+.activity-item__icon {
+  font-size: 16px;
+  margin-top: 2px;
+}
+
+.activity-item__content {
+  flex: 1;
+}
+
+.activity-item__title {
+  font-size: 13px;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.activity-item__meta {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.activity-item__time {
+  color: var(--text-muted);
+  margin-left: auto;
+}
+
+.activity-item__badge {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.activity-item__badge--ALARM {
+  background: var(--sev-high-bg);
+  color: var(--accent-red);
+  border: 1px solid var(--sev-high-border);
+}
+
+.activity-item__badge--OK {
+  background: var(--sev-low-bg);
+  color: var(--accent-green);
+  border: 1px solid var(--sev-low-border);
+}
+
+.activity-item__badge--RESOLVED {
+  background: var(--sev-low-bg);
+  color: var(--accent-green);
+  border: 1px solid var(--sev-low-border);
+}
+
+.activity-item__badge--ACTIVE {
+  background: var(--sev-high-bg);
+  color: var(--accent-red);
+  border: 1px solid var(--sev-high-border);
+}
+
+/* ── Stats Grid — 5 columns ──────────────────────────────── */
+.stats-grid {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
