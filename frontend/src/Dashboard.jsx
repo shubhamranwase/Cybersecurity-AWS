@@ -6,7 +6,7 @@ import ThreatChart from './Components/ThreatChart';
 import MetricsPanel from './Components/MetricsPanel';
 import ActivityFeed from './Components/ActivityFeed';
 
-const API = '/api';
+const API = 'https://cybersecurity-aws.onrender.com/api';
 
 function StatBox({ label, value, color }) {
   return (

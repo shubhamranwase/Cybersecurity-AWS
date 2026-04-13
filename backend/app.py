@@ -30,7 +30,10 @@ else:
     )
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins=[
+    "http://localhost:5173",
+    "https://cybersecurity-aws.vercel.app/"
+])
 
 SNS_TOPIC_ARN = "arn:aws:sns:us-east-1:YOUR_ACCOUNT_ID:security-alerts"
 
