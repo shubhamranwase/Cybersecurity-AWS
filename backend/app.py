@@ -30,13 +30,25 @@ else:
     )
 
 app = Flask(__name__)
-CORS(app, origins=[
-    "http://localhost:5173",
-    "https://cybersecurity-aws.vercel.app/"
-])
+CORS(app, resources={
+    r"/api/*": {
+        "origins": [
+            "http://localhost:5173",
+            "https://cybersecurity-aws.vercel.app", 
+        ],
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"]
+    }
+})
 
 SNS_TOPIC_ARN = "arn:aws:sns:us-east-1:YOUR_ACCOUNT_ID:security-alerts"
 
+@app.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin',  'https://cybersecurity-aws.vercel.app')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,POST,OPTIONS')
+    return response
 
 @app.route('/api/health',       methods=['GET'])
 def health():
