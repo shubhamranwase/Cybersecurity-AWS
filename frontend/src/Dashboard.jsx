@@ -101,14 +101,14 @@ export default function Dashboard() {
 
           {/* Row 2 — Metrics Line Chart */}
           <div className="card card--full">
-            <h2 className="card__title">📈 CloudWatch Metrics — Last 24 Hours</h2>
+            <h2 className="card__title">CloudWatch Metrics — Last 24 Hours</h2>
             <MetricsPanel metrics={metrics} />
           </div>
 
           {/* Row 3 — Activity Feed + Log Table */}
           <div className="main-grid" style={{ marginTop: '22px' }}>
             <div className="card card--scrollable">
-              <h2 className="card__title">🔔 Activity Feed</h2>
+              <h2 className="card__title">Activity Feed</h2>
               <ActivityFeed alarms={alarms} history={history} />
             </div>
             <div className="card card--scrollable">
