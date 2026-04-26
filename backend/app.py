@@ -43,12 +43,12 @@ CORS(app, resources={
 
 SNS_TOPIC_ARN = "arn:aws:sns:us-east-1:YOUR_ACCOUNT_ID:security-alerts"
 
-@app.after_request
-def after_request(response):
-    response.headers.add('Access-Control-Allow-Origin',  'https://cybersecurity-aws.vercel.app')
-    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-    response.headers.add('Access-Control-Allow-Methods', 'GET,POST,OPTIONS')
-    return response
+# @app.after_request
+# def after_request(response):
+#     response.headers.add('Access-Control-Allow-Origin',  'https://cybersecurity-aws.vercel.app')
+#     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+#     response.headers.add('Access-Control-Allow-Methods', 'GET,POST,OPTIONS')
+#     return response
 
 @app.route('/api/health',       methods=['GET'])
 def health():
